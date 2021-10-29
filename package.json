@@ -1,0 +1,23 @@
+{
+	"name": "mc-server-track",
+	"version": "1.0.0",
+	"description": "MC Server Track is a Discord bot capable of pinging and tracking the uptime of Minecraft servers!",
+	"main": "MC_Server_Track.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/IsakTheHacker/MC-Server-Track.git"
+	},
+	"author": "IsakTheHacker",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/IsakTheHacker/MC-Server-Track/issues"
+	},
+	"homepage": "https://github.com/IsakTheHacker/MC-Server-Track#readme",
+	"dependencies": {
+		"discord.js": "^13.2.0",
+		"dotenv": "^10.0.0"
+	}
+}
