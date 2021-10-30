@@ -14,7 +14,7 @@ module.exports = async (interaction, client) => {
 		try {
 			await command.do(interaction, [], userData, true);
 		} catch (err) {
-			Log.warn(err, message);
+			Log.warn(err, interaction);
 			await interaction.reply("An error occured, a crash report has been sent to the developers!");
 		}
 

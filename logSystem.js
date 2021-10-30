@@ -41,6 +41,13 @@ class Log {
 		}
 
 		//Assemble embed and send it in the configured log channel
+		let messageContent = "Message: **none**";
+		if (message.content) {
+			messageContent = `Message: **${message.content}**`;
+		} else {
+			messageContent = `Slash command: **${message.commandName}**`
+		}
+
 		let channel = this.client.channels.cache.get(this.logChannel);
 		const embed = new Discord.MessageEmbed()
 			.setColor(color)
@@ -48,7 +55,7 @@ class Log {
 			.setDescription(`**${body.name}:** ${body.message}`)
 			.addFields(
 				{ name: "Call stack", value: `\`\`\`${body.stack}\`\`\`` },
-				{ name: "Origin", value: `Guild: **${message.guild.name}** (${message.guild.id})\nUser: **${message.author.tag}** (${message.author.id})\n Message: **${message.content}**` }
+				{ name: "Origin", value: `Guild: **${message.member.guild.name}** (${message.member.guild.id})\nUser: **${message.member.user.tag}** (${message.member.id})\n${messageContent}` }
 			);
 		return channel.send({ embeds: [embed] });
 	}
