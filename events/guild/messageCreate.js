@@ -1,5 +1,6 @@
 const userModel = require("@models/userSchema");
 const guildConfigModel = require("@models/guildConfigSchema");
+const { Log } = require("@root/logSystem");
 
 module.exports = async (message, client) => {
 	if (message.author.bot) return;																						//Don't accept messages from bots
@@ -21,8 +22,8 @@ module.exports = async (message, client) => {
 		try {
 			await command.do(message, args, userData);
 		} catch (err) {
-			console.log(err);
-			message.channel.send("An error occured! A crash report should've been sent to the developers but that isn't implemented yet...")
+			Log.warn(err, message);
+			message.channel.send("An error occured, a crash report has been sent to the developers!");
 		}
 	}
 }

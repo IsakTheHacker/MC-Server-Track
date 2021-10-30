@@ -23,6 +23,6 @@ module.exports = {
 			.setTitle(`:ping_pong:  Pong`)
 			.setDescription(`Took ${botMessage.createdTimestamp - message.createdTimestamp} milliseconds!`)
 		if(!isInteraction) botMessage.edit({embeds:[pong_embed]});
-		else message.editReply({embeds:[pong_embed]})
+		else message.editReply({ embeds: [pong_embed] })
 	}
 }

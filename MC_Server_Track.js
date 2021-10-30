@@ -15,6 +15,9 @@ const client = new Client({
 	]
 });
 
+const { Log } = require("@root/logSystem");
+Log.configure(client, process.env.logchannel);
+
 const token = process.env.token;
 
 // functions.initWebserver(client);	//Start a web server
