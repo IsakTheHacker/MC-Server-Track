@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
-const { SlashCommandBuilder } = require("@discordjs/builders")
+const { SlashCommandBuilder } = require("@discordjs/builders");
+const { Log } = require('@root/logSystem');
 
 module.exports = {
 	name: "ping",
@@ -16,13 +17,12 @@ module.exports = {
 			.setTitle(`:ping_pong:  Ping`)
 			.setDescription(`Pinging...`);
 		let botMessage;
-		if(!isInteraction) botMessage = await message.channel.send({embeds:[pinging_embed]});
-		else botMessage = await message.reply({embeds:[pinging_embed], ephemeral:false, fetchReply:true} );
+		botMessage = await Log.dcReply(message, { embeds:[pinging_embed], ephemeral:false, fetchReply:true });
+
 		const pong_embed = new Discord.MessageEmbed()
 			.setColor("#f54242")
 			.setTitle(`:ping_pong:  Pong`)
 			.setDescription(`Took ${botMessage.createdTimestamp - message.createdTimestamp} milliseconds!`)
-		if(!isInteraction) botMessage.edit({embeds:[pong_embed]});
-		else message.editReply({ embeds: [pong_embed] })
+		botMessage.edit({ embeds:[pong_embed] });
 	}
 }

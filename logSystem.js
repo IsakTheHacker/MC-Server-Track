@@ -12,6 +12,14 @@ class Log {
 		this.logChannel = logChannel;
 	}
 
+	static dcReply(messageOrInteraction, data) {
+		if (messageOrInteraction.commandName) {					//Reply to the interaction
+			return messageOrInteraction.reply(data);
+		} else {												//Send as message
+			return messageOrInteraction.channel.send(data);
+		}
+	}
+
 	static error(body, message) {
 		this.log(body, message, "error");
 	}
