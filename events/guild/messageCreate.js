@@ -23,7 +23,7 @@ module.exports = async (message, client) => {
 			await command.do(message, args, userData);
 		} catch (err) {
 			Log.warn(err, message);
-			message.channel.send("An error occured, a crash report has been sent to the developers!");
+			await message.channel.send("An error occured, a crash report has been sent to the developers!");
 		}
 	}
 }

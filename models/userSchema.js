@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema({
 
 const model = mongoose.model("user", userSchema);
 
-const fetchUser = async (userID, serverIDs, lastMessageTimestamp = null) => {
+const fetchUser = async (userID, serverIDs = [], lastMessageTimestamp = null) => {
 	let userData = await model.findOne({ userID: userID });
 	if (!userData) {
 		userData = await model.create({
