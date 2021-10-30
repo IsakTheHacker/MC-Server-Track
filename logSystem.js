@@ -13,8 +13,13 @@ class Log {
 	}
 
 	static dcReply(messageOrInteraction, data) {
+		if (!messageOrInteraction) return;
 		if (messageOrInteraction.commandName) {					//Reply to the interaction
-			return messageOrInteraction.reply(data);
+			if (messageOrInteraction.replied) {
+				return messageOrInteraction.editReply(data);
+			} else {
+				return messageOrInteraction.reply(data);
+			}
 		} else {												//Send as message
 			return messageOrInteraction.channel.send(data);
 		}
