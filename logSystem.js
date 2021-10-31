@@ -12,6 +12,14 @@ class Log {
 		this.logChannel = logChannel;
 	}
 
+	static isInteraction(messageOrInteraction) {
+		if (messageOrInteraction.commandName) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	static dcReply(messageOrInteraction, data) {
 		if (!messageOrInteraction) return;
 		if (messageOrInteraction.commandName) {					//Reply to the interaction

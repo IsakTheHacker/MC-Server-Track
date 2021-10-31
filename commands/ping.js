@@ -13,7 +13,7 @@ module.exports = {
 	data: new SlashCommandBuilder()
 		.setName("ping")
 		.setDescription("Ping the bot!"),
-	async do(message, args, userData, isInteraction) {
+	async do(message, args, userData) {
 		const pinging_embed = new Discord.MessageEmbed()
 			.setColor("#f54242")
 			.setTitle(`:ping_pong:  Ping`)
