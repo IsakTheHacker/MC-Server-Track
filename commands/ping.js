@@ -81,7 +81,8 @@ module.exports = {
 					.setDescription("")
 					.addFields(
 						{ name: "Host", value: `IP-address:  ‎ ‎‏‏‎‏‏‎ ‎ ${status.srvRecord.host}\nPort:‎‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎  ‎ ‎‏‏‎‏‏‎ ‎ ‎ ‎ ‎‏‏‎‏‏‎ ${status.srvRecord.port}\nDelay:‎‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎  ‎ ‎‏‏‎‏‏‎  ‎ ‎‏‏‎‏‏‎ ‎ ‎${Date.now() - botMessage.createdTimestamp} ms` },
-						{ name: "Players", value: `${status.onlinePlayers}/${status.maxPlayers} (${(status.onlinePlayers / status.maxPlayers * 100).toFixed(0)}% full)` }
+						{ name: "Players", value: `${status.onlinePlayers}/${status.maxPlayers} (${(status.onlinePlayers / status.maxPlayers * 100).toFixed(0)}% full)` },
+						{ name: "Version", value: status.version }
 					)
 					.setImage('attachment://motd.png');
 				botMessage.edit({ embeds: [pong_embed], files: [{ attachment: motdImage, name: "motd.png" }] });
