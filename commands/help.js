@@ -13,6 +13,7 @@ module.exports = {
 	perms: [],
 	cooldown: 0,
 	enabled: true,
+	category: "miscellaneous",
 	data: new SlashCommandBuilder()
 		.setName("help")
 		.setDescription("Get help with bot commands!")
@@ -24,17 +25,24 @@ module.exports = {
 			if (message.options._hoistedOptions[0] != null) args[0] = message.options._hoistedOptions[0].value;	
 		}
 		if (args[0]) {
-			Log.dcReply(message, { embeds:[getSpecificCmd(message.client, args[0], message)] });
+			Log.dcReply(message, { embeds:[getSpecificCmd(message.client, args[0])] });
 		} else {
-			Log.dcReply(message, { embeds:[getAllCmds(message.client, message)] });
+			Log.dcReply(message, { embeds:[getAllCmds(message.client)] });
 		}
 	}
 }
 
-function getAllCmds(client, message) {
-	let fields = [
-		{ name: "Commands", value: client.commands.map(cmd => cmd.name).join("\n") }
-	]
+function getAllCmds(client) {
+	let categories = [];
+	client.commands.map(cmd => cmd.category).forEach(element => {
+		if (!categories.includes(element)) {
+			categories.push(element);
+		}
+	});
+	let fields = [];
+	categories.forEach(element => {
+		fields.push({ name: capitalize(element), value: client.commands.filter(e => e.category === element).map(cmd => cmd.name).join("\n") })
+	})
 	const embed = new Discord.MessageEmbed()
 		.setColor("#f54242")
 		.setTitle(`Help`)
@@ -45,7 +53,7 @@ function getAllCmds(client, message) {
 	return embed;
 }
 
-function getSpecificCmd(client, input, message) {
+function getSpecificCmd(client, input) {
 	const cmd = client.commands.get(input.toLowerCase()) || client.commands.find(a => a.aliases && a.aliases.includes(input.toLowerCase()));
 
 	if (!cmd) {
@@ -74,4 +82,8 @@ function getSpecificCmd(client, input, message) {
 			)
 		return embed;
 	}
+}
+
+function capitalize(str) {
+	return str.charAt(0).toUpperCase() + str.slice(1);
 }
