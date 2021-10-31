@@ -72,6 +72,7 @@ module.exports = {
 						}
 					}
 				});
+				const favicon = Buffer.from(status.favicon.text.split(",").slice(1).join(","), "base64");
 
 				// console.log(status);
 
@@ -84,8 +85,12 @@ module.exports = {
 						{ name: "Players", value: `${status.onlinePlayers}/${status.maxPlayers} (${(status.onlinePlayers / status.maxPlayers * 100).toFixed(0)}% full)` },
 						{ name: "Version", value: status.version }
 					)
-					.setImage('attachment://motd.png');
-				botMessage.edit({ embeds: [pong_embed], files: [{ attachment: motdImage, name: "motd.png" }] });
+					.setThumbnail("attachment://favicon.png")
+					.setImage("attachment://motd.png");
+				botMessage.edit({ embeds: [pong_embed], files: [
+					{ attachment: motdImage, name: "motd.png" },
+					{ attachment: favicon, name: "favicon.png" }
+				] });
 			}
 		} else {
 			const pinging_embed = new Discord.MessageEmbed()
