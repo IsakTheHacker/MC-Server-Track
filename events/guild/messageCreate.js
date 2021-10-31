@@ -2,6 +2,7 @@ const userModel = require("@models/userSchema");
 const guildConfigModel = require("@models/guildConfigSchema");
 const { Log } = require("@root/logSystem");
 const { calculateCooldown } = require("@root/cooldownSystem");
+const { reloadCommands } = require("@root/handyFunctions");
 
 module.exports = async (message, client) => {
 	if (message.author.bot) return;																						//Don't accept messages from bots
@@ -30,20 +31,5 @@ module.exports = async (message, client) => {
 	} catch (err) {
 		Log.warn(err, message);
 		await message.channel.send("An error occured, a crash report has been sent to the developers!");
-	}
-}
-
-reloadCommands = async (client, cmd) => {
-	const oldCommand = client.commands.get(cmd) || client.commands.find(a => a.aliases && a.aliases.includes(cmd));
-	if (process.env.debug && oldCommand) {
-		try {
-			delete require.cache[require.resolve(`@root/commands/${oldCommand.name}.js`)];		//Delete the old command
-			client.commands.delete(oldCommand.name);
-
-			const reloadedCommand = require(`@root/commands/${oldCommand.name}.js`);			//Load the new command
-			client.commands.set(reloadedCommand.name, reloadedCommand);
-		} catch (err) {
-			console.log(err);
-		}
 	}
 }
