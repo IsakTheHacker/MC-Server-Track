@@ -9,6 +9,7 @@ module.exports = {
 	usage: [],
 	perms: [],
 	cooldown: 5,
+	enabled: true,
 	data: new SlashCommandBuilder()
 		.setName("ping")
 		.setDescription("Ping the bot!"),

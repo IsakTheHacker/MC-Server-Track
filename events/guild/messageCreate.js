@@ -14,6 +14,7 @@ module.exports = async (message, client) => {
 	const prefix = guildConfig.prefix;
 	const args = message.content.slice(prefix.length).split(/ +/);
 	const cmd = args.shift().toLowerCase();
+	if (!message.content.startsWith(prefix)) return;																	//Require prefix
 
 	await reloadCommands(client, cmd);																					//Reloads commands automatically if bot is running in debug mode
 	const command = client.commands.get(cmd) || client.commands.find(a => a.aliases && a.aliases.includes(cmd));		//Fetch command
@@ -23,13 +24,15 @@ module.exports = async (message, client) => {
 	if (!newMessage) return;
 
 	//Execute command
-	if (message.content.startsWith(prefix)) {
+	if (command.enabled) {
 		try {
 			await command.do(newMessage, args, userData);
 		} catch (err) {
 			Log.warn(err, message);
 			await message.channel.send("An error occured, a crash report has been sent to the developers!");
 		}
+	} else {
+		await message.channel.send(`The \`${command.name}\` command is disabled!`);
 	}
 }
 

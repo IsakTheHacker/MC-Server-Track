@@ -15,15 +15,15 @@ module.exports = async (interaction, client) => {
 		if (!newMessage) return;
 
 		//Execute command
-		try {
-			await command.do(newMessage, [], userData, true);
-		} catch (err) {
-			Log.warn(err, interaction);
-			if (interaction.replied) {
-				await interaction.editReply("An error occured, a crash report has been sent to the developers!");
-			} else {
-				await interaction.reply("An error occured, a crash report has been sent to the developers!");
+		if (command.enabled) {
+			try {
+				await command.do(newMessage, [], userData, true);
+			} catch (err) {
+				Log.warn(err, interaction);
+				await Log.dcReply(newMessage, "An error occured, a crash report has been sent to the developers!");
 			}
+		} else {
+			await Log.dcReply(newMessage, `The \`${command.name}\` command is disabled!`);
 		}
 	} else if (interaction.isButton()) {																				//Buttons
 
