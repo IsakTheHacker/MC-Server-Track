@@ -18,7 +18,7 @@ const titles = [
 
 module.exports = {
 	name: "ping",
-	aliases: [],
+	aliases: ["status"],
 	description: "Ping Minecraft servers to see if they are online!",
 	usage: [],
 	perms: [],
