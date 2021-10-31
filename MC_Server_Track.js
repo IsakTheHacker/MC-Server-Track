@@ -1,6 +1,7 @@
 const { Client, Intents, Collection } = require("discord.js");
 require('dotenv').config();
 require('module-alias/register');
+const { initWebserver } = require("./handyFunctions");
 
 const client = new Client({
 	partials: ['MESSAGE', 'CHANNEL', 'REACTION'],
@@ -20,7 +21,7 @@ Log.configure(client, process.env.logchannel);
 
 const token = process.env.token;
 
-// functions.initWebserver(client);	//Start a web server
+initWebserver(client);	//Start a web server
 
 client.commands = new Collection();
 

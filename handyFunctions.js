@@ -12,5 +12,20 @@ module.exports = {
                 console.log(err);
             }
         }
-    }
+    },
+    initWebserver(client) {
+		const express = require('express');
+		const app = express();
+		const port = 3000;
+
+		app.get('/', (req, res) => {
+			res.send(`
+				<img src=${client.user.avatarURL()}>
+				This webpage is served as a test page to see if the bot is up and running!
+			`);
+		});
+		app.listen(port, () => console.log(`Webserver listening at http://localhost:${port}`)).on("error", (err) => {
+			console.log(`Failed to open web server with code: "${err.code}"`);
+		});
+	}
 }
