@@ -34,12 +34,14 @@ module.exports = async (message, client) => {
 }
 
 reloadCommands = async (client, cmd) => {
-	if (process.env.debug && (client.commands.get(cmd) || client.commands.find(a => a.aliases && a.aliases.includes(cmd)))) {
+	const oldCommand = client.commands.get(cmd) || client.commands.find(a => a.aliases && a.aliases.includes(cmd));
+	if (process.env.debug && oldCommand) {
 		try {
-			delete require.cache[require.resolve(`@root/commands/${cmd}.js`)];
-			client.commands.delete(cmd);
-			const pull = require(`@root/commands/${cmd}.js`);
-			client.commands.set(cmd, pull);
+			delete require.cache[require.resolve(`@root/commands/${oldCommand.name}.js`)];		//Delete the old command
+			client.commands.delete(oldCommand.name);
+
+			const reloadedCommand = require(`@root/commands/${oldCommand.name}.js`);			//Load the new command
+			client.commands.set(reloadedCommand.name, reloadedCommand);
 		} catch (err) {
 			console.log(err);
 		}
