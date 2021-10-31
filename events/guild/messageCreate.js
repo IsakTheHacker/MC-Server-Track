@@ -18,21 +18,18 @@ module.exports = async (message, client) => {
 
 	await reloadCommands(client, cmd);																					//Reloads commands automatically if bot is running in debug mode
 	const command = client.commands.get(cmd) || client.commands.find(a => a.aliases && a.aliases.includes(cmd));		//Fetch command
-	if (!command) return;
+	if (!command) return;																								//Command doesn't exist, return
+	if (!command.enabled) return await message.channel.send(`The \`${command.name}\` command is disabled!`);			//Check if command is enabled
 
 	let newMessage = await calculateCooldown(command, message);
 	if (!newMessage) return;
 
 	//Execute command
-	if (command.enabled) {
-		try {
-			await command.do(newMessage, args, userData);
-		} catch (err) {
-			Log.warn(err, message);
-			await message.channel.send("An error occured, a crash report has been sent to the developers!");
-		}
-	} else {
-		await message.channel.send(`The \`${command.name}\` command is disabled!`);
+	try {
+		await command.do(newMessage, args, userData);
+	} catch (err) {
+		Log.warn(err, message);
+		await message.channel.send("An error occured, a crash report has been sent to the developers!");
 	}
 }
 
