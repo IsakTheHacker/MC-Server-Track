@@ -68,7 +68,7 @@ module.exports = {
 						defaultViewport: {
 							width: 300,
 							height: 1,
-							deviceScaleFactor: 1.25
+							deviceScaleFactor: 1
 						},
 						args: [
 							"--no-sandbox",
