@@ -30,4 +30,7 @@ client.commands = new Collection();
 	require(`./handlers/${handler}.js`)(client);
 });
 
-client.login(token);
+client.login(token).catch((err) => {
+	console.log("That's an invalid token I fear :(");
+	process.exit(1);
+});
