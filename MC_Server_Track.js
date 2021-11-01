@@ -21,6 +21,7 @@ Log.configure(client, process.env.logchannel);
 
 const token = process.env.token;
 
+console.log(`Node version: ${process.version}`)
 initWebserver(client);	//Start a web server
 
 client.commands = new Collection();
