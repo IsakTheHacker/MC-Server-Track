@@ -5,7 +5,7 @@
 	"main": "MC_Server_Track.js",
 	"scripts": {
 		"test": "jest",
-		"start": "node ."
+		"start": "bash STARTME.sh"
 	},
 	"repository": {
 		"type": "git",
