@@ -69,7 +69,16 @@ module.exports = {
 							width: 300,
 							height: 1,
 							deviceScaleFactor: 1.25
-						}
+						},
+						args: [
+							"--no-sandbox",
+							"--disable-setuid-sandbox",
+							"--disable-gpu"
+						],
+						ignoreDefaultArgs: [
+							"--disable-extensions"
+						],
+						headless: false
 					}
 				});
 				const favicon = Buffer.from(status.favicon.text.split(",").slice(1).join(","), "base64");
