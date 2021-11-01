@@ -17,6 +17,7 @@ module.exports = {
 		const express = require('express');
 		const app = express();
 		const port = 3000;
+		const address = "0.0.0.0";
 
 		app.get('/', (req, res) => {
 			res.send(`
@@ -24,7 +25,7 @@ module.exports = {
 				This webpage is served as a test page to see if the bot is up and running!
 			`);
 		});
-		app.listen(port, () => console.log(`Webserver listening at http://localhost:${port}`)).on("error", (err) => {
+		app.listen(port, address, () => console.log(`Webserver listening at http://${address}:${port}`)).on("error", (err) => {
 			console.log(`Failed to open web server with code: "${err.code}"`);
 		});
 	}
