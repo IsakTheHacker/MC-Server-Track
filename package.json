@@ -4,7 +4,8 @@
 	"description": "MC Server Track is a Discord bot capable of pinging and tracking the uptime of Minecraft servers!",
 	"main": "MC_Server_Track.js",
 	"scripts": {
-		"test": "jest"
+		"test": "jest",
+		"start": "node ."
 	},
 	"repository": {
 		"type": "git",
