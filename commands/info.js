@@ -19,6 +19,13 @@ module.exports = {
 		let currentTime = new Date().getTime();
 		let restartTime = new Date(currentTime - message.client.uptime);
 
+		let additionalInformation;
+		if (process.env.debug) {
+			additionalInformation = "This bot is running in debug mode!";
+		} else {
+			additionalInformation = "No additional information";
+		}
+
 		const embed = new Discord.MessageEmbed()
 			.setColor("#1f1f1f")
 			.setThumbnail(message.client.user.avatarURL())
@@ -27,7 +34,9 @@ module.exports = {
 				{ name: "Statistics", value: `Uptime:  ‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎  ‎  ‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎ **${ms(message.client.uptime)}** (${message.client.uptime} milliseconds)\nLast restart:  ‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎  **${restartTime.toLocaleTimeString()}** (${restartTime.toLocaleDateString()})`, inline: true },
 				{ name: "Total servers", value: message.client.guilds.cache.size.toString(), inline: true }
 
-			);
+			)
+			.setFooter(additionalInformation)
+			.setTimestamp();
 		Log.dcReply(message, { embeds: [embed] });
 	}
 }
