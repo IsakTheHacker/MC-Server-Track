@@ -38,6 +38,14 @@ const row2 = new Discord.MessageActionRow()
 		nextButtonDisabled
 	);
 
+const confirmRow = new Discord.MessageActionRow()
+	.addComponents(
+		new Discord.MessageButton()
+		.setCustomId("confirm")
+		.setLabel("Confirm")
+		.setStyle("PRIMARY")
+	);
+
 module.exports = {
 	name: "settings",
 	aliases: ["options", "setup"],
@@ -58,15 +66,17 @@ module.exports = {
 			.setTitle(`Change my user settings`)
 			.setDescription(`Hi, ${message.member.user.username}! I will help you change your user settings. Press :arrow_right: to continue!`)
 			.setFooter(`Page ${n}`);
-		await Log.dcReply(message, { embeds: [startEmbed], ephemeral: true, components: [row0], fetchReply: true });
+		await Log.dcReply(message, { embeds: [startEmbed], ephemeral: true, components: [row0] });
 
-		const filter = i => i.user.id === message.member.id;
-		const collector = message.channel.createMessageComponentCollector({ componentType: "BUTTON" });
-		
-		collector.on("collect", async i => {
+		const buttonFilter = i => i.user.id === message.member.id;
+		const buttonCollector = message.channel.createMessageComponentCollector({ buttonFilter, componentType: "BUTTON" });
+
+		newPrefix = undefined;
+
+		buttonCollector.on("collect", async i => {
 			if (i.customId === "next") {
 				n++;
-			} else {
+			} else if (i.customId === "previous") {
 				n--;
 			}
 			switch (n) {
@@ -74,21 +84,37 @@ module.exports = {
 					await i.update({ embeds: [startEmbed], components: [row0] });
 					break;
 				case 1:
+					const messageFilter = m => m.member.id === message.member.id;
+					const messageCollector = message.channel.createMessageCollector({ messageFilter });
+					messageCollector.on("collect", async m => {
+						if (n === 1) {
+							newPrefix = m.content;
+							m.delete().catch((err) => {});
+						}
+					});
+					if (newPrefix !== undefined) {
+						userData.prefix = newPrefix;
+						userData.save();
+						newPrefix = undefined;
+						messageCollector.emit("end");
+					}
 					const embed = new Discord.MessageEmbed()
 						.setColor("#1f1f1f")
 						.setTitle(`Change my user settings`)
 						.setDescription(`Here you can change your personal bot prefix that you'll use when you communicate with the bot.`)
 						.addFields(
-							{ name: "Current bot prefix", value: userData.prefix }
+							{ name: "Current bot prefix", value: userData.prefix },
+							{ name: "How to change?", value: "Type your new prefix in the chat and press confirm!" }
 						)
 						.setFooter(`Page ${n}`);
-					await i.update({ embeds: [embed], components: [row1] });
+					await i.update({ embeds: [embed], components: [row1, confirmRow] });
 					break;
 			}
 		});
 
-		collector.on("end", async (collected) => {
+		buttonCollector.on("end", async (collected) => {
 			console.log("end");
 		});
+
 	}
 }

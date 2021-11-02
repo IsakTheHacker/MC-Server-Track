@@ -12,7 +12,7 @@ module.exports = async (message, client) => {
 	let userData = await userModel.fetchUserFromMessage(message);														//Fetch user
 	userData.lastMessageTimestamp = message.createdTimestamp;
 
-	const prefix = guildConfig.prefix;
+	const prefix = userData.prefix;
 	const args = message.content.slice(prefix.length).split(/ +/);
 	const cmd = args.shift().toLowerCase();
 	if (!message.content.startsWith(prefix)) return;																	//Require prefix
