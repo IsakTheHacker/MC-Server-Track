@@ -5,6 +5,7 @@ const userSchema = new mongoose.Schema({
 	serverIDs: { type: Array, require: true },
 	lastMessageTimestamp: { type: Number },
 	reminders: { type: Array },
+	prefix: { type: String, require: true, default: "mc!" },
 });
 
 const model = mongoose.model("user", userSchema);

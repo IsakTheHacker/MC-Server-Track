@@ -1,8 +1,7 @@
 const mongoose = require("mongoose");
 
 const guildConfigSchema = new mongoose.Schema({
-	guildID: { type: String, require: true, unique: true },
-	prefix: { type: String, require: true, default: "mc!" }
+	guildID: { type: String, require: true, unique: true }
 });
 
 const model = mongoose.model("guildconfig", guildConfigSchema);

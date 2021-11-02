@@ -2,6 +2,42 @@ const Discord = require('discord.js');
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const { Log } = require('@root/logSystem');
 
+previousButton = new Discord.MessageButton()
+	.setCustomId("previous")
+	.setEmoji("⬅️")
+	.setStyle("SECONDARY");
+previousButtonDisabled = new Discord.MessageButton()
+	.setCustomId("previous")
+	.setEmoji("⬅️")
+	.setStyle("SECONDARY")
+	.setDisabled(true);
+	
+nextButton = new Discord.MessageButton()
+	.setCustomId("next")
+	.setEmoji("➡️")
+	.setStyle("SECONDARY");
+nextButtonDisabled = new Discord.MessageButton()
+	.setCustomId("next")
+	.setEmoji("➡️")
+	.setStyle("SECONDARY")
+	.setDisabled(true);
+
+const row0 = new Discord.MessageActionRow()
+	.addComponents(
+		previousButtonDisabled,
+		nextButton
+	);
+const row1 = new Discord.MessageActionRow()
+	.addComponents(
+		previousButton,
+		nextButton
+	);
+const row2 = new Discord.MessageActionRow()
+	.addComponents(
+		previousButton,
+		nextButtonDisabled
+	);
+
 module.exports = {
 	name: "settings",
 	aliases: ["options", "setup"],
@@ -15,40 +51,44 @@ module.exports = {
 		.setName("settings")
 		.setDescription("Change user settings"),
 	async do(message, args, userData) {
-		const row = new Discord.MessageActionRow()
-			.addComponents(
-				new Discord.MessageButton()
-					.setCustomId("continue")
-					.setEmoji("➡️")
-					.setStyle("SECONDARY")
-			);
-
-		const embed = new Discord.MessageEmbed()
+		let n = 0;
+		const startEmbed = new Discord.MessageEmbed()
 			.setColor("#1f1f1f")
 			.setThumbnail(message.member.user.avatarURL())
 			.setTitle(`Change my user settings`)
-			.setDescription(`Hi, ${message.member.user.username}! I will help you change your user settings. Press :arrow_right: to continue!`);
-		await Log.dcReply(message, { embeds: [embed], ephemeral: true, components: [row], fetchReply: true });
+			.setDescription(`Hi, ${message.member.user.username}! I will help you change your user settings. Press :arrow_right: to continue!`)
+			.setFooter(`Page ${n}`);
+		await Log.dcReply(message, { embeds: [startEmbed], ephemeral: true, components: [row0], fetchReply: true });
 
-		let n = 0;
-		const filter = i => i.customId === "continue" && i.user.id === message.member.id;
-		const collector = message.channel.createMessageComponentCollector({ filter, componentType: "BUTTON" });
-
+		const filter = i => i.user.id === message.member.id;
+		const collector = message.channel.createMessageComponentCollector({ componentType: "BUTTON" });
+		
 		collector.on("collect", async i => {
-			switch (n) {
-			case 0:
-				const embed = new Discord.MessageEmbed()
-					.setColor("#1f1f1f")
-					.setTitle(`Change my user settings`)
-					.setDescription(`Page 1`);
-				await i.update({ embeds: [embed], components: [row] });
-				break;
+			if (i.customId === "next") {
+				n++;
+			} else {
+				n--;
 			}
-			n++;
+			switch (n) {
+				case 0:
+					await i.update({ embeds: [startEmbed], components: [row0] });
+					break;
+				case 1:
+					const embed = new Discord.MessageEmbed()
+						.setColor("#1f1f1f")
+						.setTitle(`Change my user settings`)
+						.setDescription(`Here you can change your personal bot prefix that you'll use when you communicate with the bot.`)
+						.addFields(
+							{ name: "Current bot prefix", value: userData.prefix }
+						)
+						.setFooter(`Page ${n}`);
+					await i.update({ embeds: [embed], components: [row1] });
+					break;
+			}
 		});
 
 		collector.on("end", async (collected) => {
-			//Nothing
+			console.log("end");
 		});
 	}
 }
