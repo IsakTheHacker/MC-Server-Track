@@ -70,7 +70,7 @@ class Log {
 		}
 
 		let channel = this.client.channels.cache.get(this.logChannel);
-		const embed = new Discord.MessageEmbed()
+		const embed = new Discord.EmbedBuilder()
 			.setColor(color)
 			.setTitle(title)
 			.setDescription(`**${body.name}:** ${body.message}`)

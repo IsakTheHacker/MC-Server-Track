@@ -43,7 +43,7 @@ function getAllCmds(client) {
 	categories.forEach(element => {
 		fields.push({ name: capitalize(element), value: client.commands.filter(e => e.category === element).map(cmd => cmd.name).join("\n") })
 	})
-	const embed = new Discord.MessageEmbed()
+	const embed = new Discord.EmbedBuilder()
 		.setColor("#f54242")
 		.setTitle(`Help`)
 		.setDescription(`Showing list of commands`)
@@ -73,7 +73,7 @@ function getSpecificCmd(client, input) {
 			{ name: "Alias", value: aliases },
 			{ name: "Usage", value: usages }
 		]
-		const embed = new Discord.MessageEmbed()
+		const embed = new Discord.EmbedBuilder()
 			.setColor("#f54242")
 			.setTitle(`${cmd.name} - Help`)
 			.setDescription(`Showing information about the *${cmd.name}* command`)

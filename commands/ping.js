@@ -36,14 +36,12 @@ module.exports = {
 			if (message.options._hoistedOptions[0] != null) args[0] = message.options._hoistedOptions[0].value;
 		}
 		if (args[0]) {
-			const pinging_embed = new Discord.MessageEmbed()
+			const pinging_embed = new Discord.EmbedBuilder()
 				.setColor(colors[2])
 				.setTitle(titles[2])
 				.setDescription(`Pinging ${args[0]}...`);
 			let botMessage;
 			botMessage = await Log.dcReply(message, { embeds: [pinging_embed], ephemeral: false, fetchReply: true });
-
-			// console.log(await mcutil.query(args[0]));
 
 			let status;
 			try {
@@ -53,7 +51,7 @@ module.exports = {
 			}
 
 			if (!status) {									//Offline
-				const pong_embed = new Discord.MessageEmbed()
+				const pong_embed = new Discord.EmbedBuilder()
 					.setColor(colors[0])
 					.setTitle(titles[0])
 					.setDescription(`The server is offline. :disappointed_relieved:`)
@@ -81,18 +79,15 @@ module.exports = {
 						headless: false
 					}
 				});
-				const favicon = Buffer.from(status.favicon.text.split(",").slice(1).join(","), "base64");
+				const favicon = Buffer.from(status.favicon.split(",").slice(1).join(","), "base64");
 
-				// console.log(status);
-
-				const pong_embed = new Discord.MessageEmbed()
+				const pong_embed = new Discord.EmbedBuilder()
 					.setColor(colors[1])
 					.setTitle(titles[1])
-					.setDescription("")
 					.addFields(
 						{ name: "Host", value: `IP-address:  ‎ ‎‏‏‎‏‏‎ ‎ ${status.srvRecord.host}\nPort:‎‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎  ‎ ‎‏‏‎‏‏‎ ‎ ‎ ‎ ‎‏‏‎‏‏‎ ${status.srvRecord.port}\nDelay:‎‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎‏ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎  ‎ ‎‏‏‎‏‏‎  ‎ ‎‏‏‎‏‏‎ ‎ ‎${Date.now() - botMessage.createdTimestamp} ms` },
-						{ name: "Players", value: `${status.onlinePlayers}/${status.maxPlayers} (${(status.onlinePlayers / status.maxPlayers * 100).toFixed(0)}% full)` },
-						{ name: "Version", value: status.version }
+						{ name: "Players", value: `${status.players.online}/${status.players.max} (${(status.players.online / status.players.max * 100).toFixed(0)}% full)` },
+						{ name: "Version", value: status.version.name },
 					)
 					.setThumbnail("attachment://favicon.png")
 					.setImage("attachment://motd.png");
@@ -102,13 +97,13 @@ module.exports = {
 				] });
 			}
 		} else {
-			const pinging_embed = new Discord.MessageEmbed()
+			const pinging_embed = new Discord.EmbedBuilder()
 				.setColor("#f54242")
 				.setTitle(`:ping_pong:  Ping`)
 				.setDescription(`Pinging...`);
 			let botMessage;
 			botMessage = await Log.dcReply(message, { embeds: [pinging_embed], ephemeral: false, fetchReply: true });
-			const pong_embed = new Discord.MessageEmbed()
+			const pong_embed = new Discord.EmbedBuilder()
 				.setColor("#f54242")
 				.setTitle(`:ping_pong:  Pong`)
 				.setDescription(`Took ${botMessage.createdTimestamp - message.createdTimestamp} milliseconds!`)

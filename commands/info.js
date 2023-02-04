@@ -26,16 +26,15 @@ module.exports = {
 			additionalInformation = "No additional information";
 		}
 
-		const embed = new Discord.MessageEmbed()
+		const embed = new Discord.EmbedBuilder()
 			.setColor("#1f1f1f")
 			.setThumbnail(message.client.user.avatarURL())
 			.setTitle(`${message.client.user.username}`)
 			.addFields(
 				{ name: "Statistics", value: `Uptime:  ‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎  ‎  ‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎ ‎ **${ms(message.client.uptime)}** (${message.client.uptime} milliseconds)\nLast restart:  ‎ ‎‏‏‎ ‎‏‏‎ ‎‏‏‎  **${restartTime.toLocaleTimeString()}** (${restartTime.toLocaleDateString()})`, inline: true },
-				{ name: "Total servers", value: message.client.guilds.cache.size.toString(), inline: true }
-
+				{ name: "Total servers", value: message.client.guilds.cache.size.toString(), inline: true },
 			)
-			.setFooter(additionalInformation)
+			.setFooter({ text: additionalInformation })
 			.setTimestamp();
 		Log.dcReply(message, { embeds: [embed] });
 	}
