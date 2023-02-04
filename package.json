@@ -22,7 +22,7 @@
 		"discord.js": "^13.3.0",
 		"dotenv": "^16.0.3",
 		"express": "^4.18.2",
-		"minecraft-server-util": "^4.1.1",
+		"minecraft-server-util": "^5.3.2",
 		"module-alias": "^2.2.2",
 		"mongoose": "^6.9.0",
 		"ms": "^2.1.3",
