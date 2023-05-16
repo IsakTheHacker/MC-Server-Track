@@ -58,7 +58,7 @@ module.exports = {
 				botMessage.edit({ embeds: [pong_embed] });
 			} else {										//Online
 				const motdImage = await nodeHtmlToImage({
-					html: status.motd.html.replace("\n", "<br>"),
+					html: status.motd.html.replace(/\n/g, "<br>"),
 					encoding: "binary",
 					transparent: true,
 					selector: "body",
