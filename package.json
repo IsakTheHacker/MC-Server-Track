@@ -19,7 +19,7 @@
 	"homepage": "https://github.com/IsakTheHacker/MC-Server-Track#readme",
 	"dependencies": {
 		"@discordjs/rest": "^2.0.1",
-		"discord.js": "^14.12.1",
+		"discord.js": "^14.13.0",
 		"dotenv": "^16.3.1",
 		"express": "^4.18.2",
 		"minecraft-server-util": "^5.4.4",
