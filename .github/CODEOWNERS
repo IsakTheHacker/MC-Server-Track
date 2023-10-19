@@ -1,0 +1,5 @@
+# The MC Server Track Discord bot has been originally written by IsakTheHacker.
+# This CODEOWNERS file is only to make sure that @IsakTheHacker is requested
+# for a code review in case of a pull request.
+
+* @IsakTheHacker
