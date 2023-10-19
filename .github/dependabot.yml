@@ -5,11 +5,25 @@
 
 version: 2
 updates:
+  #Check for updates to Github Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"               #Location of package manifests
+    target-branch: "main"
+    labels:
+      - "dependencies"
+      - "dependencies/github-actions"
+    schedule:
+      interval: "weekly"
+      day: "saturday"            #Check for updates on saturdays
+      time: "09:00"
+      timezone: "Europe/Stockholm"
+  #Check updates for NPM dependencies
   - package-ecosystem: "npm"  #Use the NPM package manager
     directory: "/"            #Location of package manifests
     target-branch: "main"
     labels:
       - "dependencies"
+      - "dependencies/npm"
     schedule:
       interval: "weekly"
       day: "saturday"         #Check for updates on saturdays
