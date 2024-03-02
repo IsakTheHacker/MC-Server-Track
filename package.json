@@ -21,7 +21,7 @@
 		"@discordjs/rest": "^2.2.0",
 		"discord.js": "^14.14.1",
 		"dotenv": "^16.4.5",
-		"express": "^4.18.2",
+		"express": "^4.18.3",
 		"minecraft-server-util": "^5.4.4",
 		"module-alias": "^2.2.3",
 		"mongoose": "^8.2.0",
